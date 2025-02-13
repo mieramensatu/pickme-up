@@ -81,6 +81,9 @@ footer p {
   margin: auto;
   padding: 15px;
 }
+.list.active {
+  display: flex;
+}
 @media (max-width: 768px) {
   .hamburger-menu {
     display: block;
@@ -94,5 +97,6 @@ footer p {
     background: #1f2937;
     padding: 10px;
     border-radius: 5px;
+    z-index: 1000;
   }
 }
