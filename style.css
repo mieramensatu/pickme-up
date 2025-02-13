@@ -1,99 +1,98 @@
-/* General Styling */
 body {
-    font-family: "Poppins", sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
 }
-
 nav {
-    background: #1f2937;
-    color: white;
-    margin: 0;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  background: #1f2937;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
 }
-
-/* Button Styling */
-button {
-    padding: 10px 15px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    color: white;
+.hamburger-menu {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
 }
-
+.list {
+  display: flex;
+  gap: 10px;
+}
+.list button {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+}
 #set-source {
-    background-color: #007BFF;
+  background-color: #007bff;
 }
-
 #unset-source {
-    background-color: #dc3545;
+  background-color: #dc3545;
 }
-
 button:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
-
-/* Map Styling */
+#map-container {
+  width: 100vw;
+  height: 80vh;
+  margin: 0 auto;
+  display: block;
+}
 #map {
-    width: 100vw; /* Full width */
-    height: 80vh; /* 80% of the viewport height */
-    margin: 0 auto;
-    border: 2px solid #ccc;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ccc;
 }
-
 .popup {
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    transform: translate(-50%, -100%);
-    min-width: 300px;
-    max-width: 420px;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  transform: translate(-50%, -100%);
+  min-width: 300px;
+  max-width: 420px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
-
 .popup h3 {
-    margin: 0;
-    font-size: 1em;
-    font-weight: bold;
-    color: #007BFF;
+  margin: 0;
+  font-size: 1em;
+  font-weight: bold;
+  color: #007bff;
 }
-
 .popup p {
-    margin: 5px 0;
-    font-size: 0.7em;
+  margin: 5px 0;
+  font-size: 0.7em;
 }
 
-.close-btn {
-    border: none;
-    background: red;
-    color: white;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
+footer p {
+  background: #1f2937;
+  color: white;
+  margin: auto;
+  padding: 15px;
+}
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: block;
+  }
+  .list {
+    display: none;
+    flex-direction: column;
     position: absolute;
     right: 10px;
-    top: 10px;
-}
-
-.marker-icon {
-    width: 35px;
-    height: 35px;
+    top: 60px;
+    background: #1f2937;
+    padding: 10px;
+    border-radius: 5px;
+  }
 }

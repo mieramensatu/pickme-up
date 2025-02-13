@@ -11,6 +11,12 @@ import VectorLayer from "https://cdn.skypack.dev/ol/layer/Vector.js";
 import { Style, Icon } from "https://cdn.skypack.dev/ol/style.js";
 import Swal from "https://cdn.skypack.dev/sweetalert2";
 
+document
+  .getElementById("hamburger-menu")
+  .addEventListener("click", function () {
+    document.getElementById("nav-list").classList.toggle("active");
+  });
+
 const tileLayer = new TileLayer({
   source: new OSM(),
   visible: true,
