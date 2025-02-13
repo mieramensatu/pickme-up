@@ -54,8 +54,8 @@ let userLocationText = "";
 let userLongitude = 0;
 let userLatitude = 0;
 let draggableMarker = null;
+let savedMarkers = []; 
 
-// **Fungsi untuk Menghapus Semua Marker**
 function clearMarkers() {
   markerSource.clear();
   draggableMarker = null;
@@ -86,6 +86,7 @@ navigator.geolocation.getCurrentPosition(
     );
     userMarker.set("isUserLocation", true); // Tandai sebagai lokasi pengguna
     markerSource.addFeature(userMarker);
+    savedMarkers.push(userMarker); // Simpan marker ke dalam array
 
     fetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lon=${userLongitude}&lat=${userLatitude}`
@@ -181,6 +182,7 @@ map.on("click", async function (event) {
 
     draggableMarker.set("isBlueMarker", true);
     markerSource.addFeature(draggableMarker);
+    savedMarkers.push(draggableMarker); // Simpan marker ke dalam array
 
     popup.innerHTML = `
             <div>
@@ -205,14 +207,23 @@ map.on("click", async function (event) {
 document.getElementById("set-source").onclick = function () {
   tileLayer.setVisible(true);
   markerLayer.setVisible(true);
+
+  // Tambahkan kembali semua marker yang disimpan
+  savedMarkers.forEach((marker) => {
+    markerSource.addFeature(marker);
+  });
+
   Swal.fire("Layer Ditampilkan", "Layer peta telah diaktifkan.", "success");
 };
 
-// **Tombol Hide Layer**
 document.getElementById("unset-source").onclick = function () {
   tileLayer.setVisible(false);
   markerLayer.setVisible(false);
-  clearMarkers();
+
+  // Hapus semua marker dari map dan simpan ke array savedMarkers
+  savedMarkers = markerSource.getFeatures(); // Simpan marker yang ada
+  markerSource.clear(); // Hapus semua marker dari map
+
   overlay.setPosition(undefined);
   Swal.fire(
     "Layer Disembunyikan & Marker Dihapus",
@@ -221,7 +232,17 @@ document.getElementById("unset-source").onclick = function () {
   );
 };
 
-// **EVENT: Drag Marker**
+document.getElementById("set-source").onclick = function () {
+  tileLayer.setVisible(true);
+  markerLayer.setVisible(true);
+
+  savedMarkers.forEach((marker) => {
+    markerSource.addFeature(marker);
+  });
+
+  Swal.fire("Layer Ditampilkan", "Layer peta telah diaktifkan.", "success");
+};
+
 map.on("pointerdrag", function (event) {
   if (draggableMarker) {
     const newCoordinates = toLonLat(event.coordinate);
