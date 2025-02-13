@@ -55,6 +55,12 @@ let userLongitude = 0;
 let userLatitude = 0;
 let draggableMarker = null;
 
+// **Fungsi untuk Menghapus Semua Marker**
+function clearMarkers() {
+  markerSource.clear();
+  draggableMarker = null;
+}
+
 // **Ambil Lokasi GPS Pengguna**
 navigator.geolocation.getCurrentPosition(
   (pos) => {
@@ -155,12 +161,10 @@ map.on("click", async function (event) {
     const data = await response.json();
     const locationName = data.display_name || "Alamat tidak ditemukan";
 
-    // **Hapus marker sebelumnya jika ada**
     if (draggableMarker) {
       markerSource.removeFeature(draggableMarker);
     }
 
-    // **Tambahkan Marker Biru Baru**
     draggableMarker = new Feature({
       geometry: new Point(fromLonLat([longitude, latitude])),
     });
@@ -170,15 +174,14 @@ map.on("click", async function (event) {
         image: new Icon({
           src: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
           scale: 0.05,
-          color: "blue", // Warna biru
+          color: "blue",
         }),
       })
     );
 
-    draggableMarker.set("isBlueMarker", true); // Tandai sebagai marker biru
+    draggableMarker.set("isBlueMarker", true);
     markerSource.addFeature(draggableMarker);
 
-    // **Tampilkan Popup di Posisi Klik**
     popup.innerHTML = `
             <div>
                 <h3>Informasi Lokasi</h3>
@@ -190,7 +193,6 @@ map.on("click", async function (event) {
         `;
     overlay.setPosition(event.coordinate);
 
-    // **Event untuk Menutup Popup**
     document.querySelector(".close-btn").addEventListener("click", () => {
       overlay.setPosition(undefined);
     });
@@ -199,16 +201,27 @@ map.on("click", async function (event) {
   }
 });
 
+// **Tombol Show Layer**
 document.getElementById("set-source").onclick = function () {
   tileLayer.setVisible(true);
+  markerLayer.setVisible(true);
   Swal.fire("Layer Ditampilkan", "Layer peta telah diaktifkan.", "success");
 };
 
+// **Tombol Hide Layer**
 document.getElementById("unset-source").onclick = function () {
   tileLayer.setVisible(false);
-  Swal.fire("Layer Disembunyikan", "Layer peta telah disembunyikan.", "info");
+  markerLayer.setVisible(false);
+  clearMarkers();
+  overlay.setPosition(undefined);
+  Swal.fire(
+    "Layer Disembunyikan & Marker Dihapus",
+    "Layer peta dan semua marker telah disembunyikan.",
+    "info"
+  );
 };
 
+// **EVENT: Drag Marker**
 map.on("pointerdrag", function (event) {
   if (draggableMarker) {
     const newCoordinates = toLonLat(event.coordinate);
